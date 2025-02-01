@@ -4,51 +4,91 @@ import java.time.LocalDate;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "coachfeedback")
 public class CoachFeedback extends BasicEntity {
 
-	@Column(name = "user_id")
-private Long User_ID;
-	@Column(name = "coach_id")
-private Long Coach_ID;
-	@Column(name = "message")
-private Long Message;
+	@ManyToOne
+	@JoinColumn(name = "userId", referencedColumnName = "id")
+	private User UserID;
+	@ManyToOne
+	@JoinColumn(name = "coachId", referencedColumnName = "id")
+	private User CoachID;
+	
+	@Column(name = "message",length = 1000)
+	private String Message;
 	@Column(name = "date")
-private LocalDate Date;
+	private LocalDate Date;
+
 	public CoachFeedback() {
 	}
-	public Long getUser_ID() {
-		return User_ID;
+
+
+
+
+	public User getUserID() {
+		return UserID;
 	}
-	public void setUser_ID(Long user_ID) {
-		User_ID = user_ID;
+
+
+
+
+	public void setUserID(User userID) {
+		UserID = userID;
 	}
-	public Long getCoach_ID() {
-		return Coach_ID;
+
+
+
+
+	public User getCoachID() {
+		return CoachID;
 	}
-	public void setCoach_ID(Long coach_ID) {
-		Coach_ID = coach_ID;
+
+
+
+
+	public void setCoachID(User coachID) {
+		CoachID = coachID;
 	}
-	public Long getMessage() {
+
+
+
+
+
+	public String getMessage() {
 		return Message;
 	}
-	public void setMessage(Long message) {
+
+
+
+
+	public void setMessage(String message) {
 		Message = message;
 	}
+
+
+
+
 	public LocalDate getDate() {
 		return Date;
 	}
+
 	public void setDate(LocalDate date) {
 		Date = date;
 	}
+
+
+
+
 	@Override
 	public String toString() {
-		return "CoachFeedback [User_ID=" + User_ID + ", Coach_ID=" + Coach_ID + ", Message=" + Message + ", Date="
-				+ Date + "]";
+		return "CoachFeedback [UserID=" + UserID + ", CoachID=" + CoachID + ", Message=" + Message + ", Date=" + Date
+				+ "]";
 	}
-	
+
 	
 }

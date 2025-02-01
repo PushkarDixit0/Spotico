@@ -2,48 +2,65 @@ package com.sportico.pojos;
 
 import java.time.LocalDate;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "coachingEnrollment")
 public class CoachingEnrollment extends BasicEntity {
-	@Column(name = "user_id")
-private Long User_ID;
-	@Column(name = "coachingSession_id")
-private Long CoachingSession_ID;
-	@Column(name = "sport_id")
-private Long Sport_ID;
+	
+	@ManyToOne
+	@JoinColumn(name = "userId", referencedColumnName = "id")
+private User UserID;
+	
+	@ManyToOne
+	@JoinColumn(name = "coachingSessionId", referencedColumnName = "id")
+private CoachingSession CoachingSessionID;
+	
+	@ManyToOne
+	@JoinColumn(name = "sportsId" , referencedColumnName = "id")
+private Sports SportID;
+	
+	@CreationTimestamp
 	@Column(name = "enrollmentDate")
 private LocalDate EnrollmentDate;
+	
 	@Enumerated(EnumType.STRING)
 	@Column(name = "paymentType")
 private PaymentStatus PaymentType;
 	@Enumerated(EnumType.STRING)
 	@Column(name = "sportType")
 private SportType SportType;
+	
+	
+	
 	public CoachingEnrollment() {
+		
 	}
-	public Long getUser_ID() {
-		return User_ID;
+	public User getUserID() {
+		return UserID;
 	}
-	public void setUser_ID(Long user_ID) {
-		User_ID = user_ID;
+	public void setUserID(User userID) {
+		UserID = userID;
 	}
-	public Long getCoachingSession_ID() {
-		return CoachingSession_ID;
+	public CoachingSession getCoachingSessionID() {
+		return CoachingSessionID;
 	}
-	public void setCoachingSession_ID(Long coachingSession_ID) {
-		CoachingSession_ID = coachingSession_ID;
+	public void setCoachingSessionID(CoachingSession coachingSessionID) {
+		CoachingSessionID = coachingSessionID;
 	}
-	public Long getSport_ID() {
-		return Sport_ID;
+	public Sports getSportID() {
+		return SportID;
 	}
-	public void setSport_ID(Long sport_ID) {
-		Sport_ID = sport_ID;
+	public void setSportID(Sports sportID) {
+		SportID = sportID;
 	}
 	public LocalDate getEnrollmentDate() {
 		return EnrollmentDate;
@@ -65,14 +82,9 @@ private SportType SportType;
 	}
 	@Override
 	public String toString() {
-		return "CoachingEnrollment [User_ID=" + User_ID + ", CoachingSession_ID=" + CoachingSession_ID + ", Sport_ID="
-				+ Sport_ID + ", EnrollmentDate=" + EnrollmentDate + ", PaymentType=" + PaymentType + ", SportType="
+		return "CoachingEnrollment [UserID=" + UserID + ", CoachingSessionID=" + CoachingSessionID + ", SportID="
+				+ SportID + ", EnrollmentDate=" + EnrollmentDate + ", PaymentType=" + PaymentType + ", SportType="
 				+ SportType + "]";
 	}
-	
-	
-	
-	
-	
 	
 }

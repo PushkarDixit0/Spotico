@@ -7,9 +7,11 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.sportico.DAO.CoachingSessionDao;
 import com.sportico.DAO.UsersDao;
 import com.sportico.DTO.GetUserdto;
 import com.sportico.DTO.PostUserdto;
+import com.sportico.pojos.Roles;
 import com.sportico.pojos.User;
 
 import jakarta.transaction.Transactional;
@@ -17,60 +19,149 @@ import jakarta.transaction.Transactional;
 @Service
 @Transactional
 public class UsersServiceImpl implements UsersService {
-	
+
 	@Autowired
 	public UsersDao userDao;
-	
+
+
 	@Autowired
 	public ModelMapper mapper;
-	
+
 	@Override
-	public List<GetUserdto> getallUSers() {
-		List<User> alluser=userDao.findAll();
-		return alluser.stream()
-				.map(user-> mapper.map(user, GetUserdto.class))
-				.collect(Collectors.toList());
-	
+	public List<GetUserdto> getallUSERS() {
+		List<User> alluser = userDao.findAll();
+		return alluser.stream().map(user -> mapper.map(user, GetUserdto.class)).collect(Collectors.toList());
+
 	}
 
-
+	
 	@Override
-	public String saveuser(PostUserdto entity) {
-		if(entity!=null) {
-			User user=mapper.map(entity, User.class);
+	public User GetuserbyId(Long userid) {
+		
+		return userDao.findById(userid).orElse(null);
+	}
+	
+	
+	
+	@Override
+	public String saveuser(PostUserdto postUserdto) {
+	
+		if(postUserdto!=null) {
+			
+			
+			User user = mapper.map(postUserdto, User.class);			
+			user.setRole(Roles.ROLE_USER);
+		
+			userDao.save(user);
+			
+			return "Successfully save";
+		 
+	}else {
+		return "Not save Successfully";
+	}
+	}
+	
+	
+	@Override
+	public String savecoach(PostUserdto entity) {
+		if (entity != null) {
+			User user = mapper.map(entity, User.class);
+			user.setRole(Roles.ROLE_COACH);
 			userDao.save(user);
 			return "Successfully save";
-		}
-		else {
+		} else {
 			return "input data is invalid";
 		}
 	}
 
+	
 
 	@Override
-	public String Updateuser(Long userid,PostUserdto entity) {
-		if(entity!=null) {
-			
-			User user=userDao.findById(userid).orElseThrow();
-			if(entity!=null) {
-			User u=mapper.map(entity, User.class);
-			user.setDOB(u.getDOB());
-			user.setFName(u.getFName());
-			user.setLName(u.getLName());
-				
-			}
-			
-			
+	public String Updateuser(Long userid, PostUserdto entity) {
+		if (entity != null) {
+
+			User user = userDao.findById(userid).orElseThrow();
+
+			User u = mapper.map(entity, User.class);
+			user.setDob(u.getDob());
+			user.setfName(u.getfName());
+			user.setlName(u.getlName());
+
 			userDao.save(user);
 			return "Successfully Updated";
-		}
-		else {
+		} else {
 			return null;
 		}
 	}
+
+	@Override
+	public String UpdateuserEmail(Long userid, String email) {
+		if (email != null) {
+			User user = userDao.findById(userid).orElseThrow();
+			
+			user.setEmail(email);
+			userDao.save(user);
+			return "Successfully Email Updated";
+			
+		} else {
+
+			return null;
+		}
+		
+	}
+
+	@Override
+	public String UpdateuserPass(String email, String OLDpasswd, String NEWpasswd) {
+		if (email != null) {
+			User user = userDao.findByEmailAndPassword(email,OLDpasswd);
+			
+			user.setPassword(NEWpasswd);
+			userDao.save(user);
+			return "Successfully Password Updated";
+			
+		} else {
+
+			return null;
+		}
+		
+	}
+
+	@Override
+	public String deleteuser(Long userid) {
+		userDao.deleteById(userid);
+		return "Successfully user delete";
+		
+	}
+
+
 	
 	
 	
+	@Override
+	public List<GetUserdto> getallCoach() {
+		List<User> alluser = userDao.findByRole(Roles.ROLE_COACH);
+		return alluser.stream().map(user -> mapper.map(user, GetUserdto.class)).collect(Collectors.toList());
+
+	}
+
+
+	@Override
+	public List<GetUserdto> getallusers() {
+		List<User> alluser = userDao.findByRole(Roles.ROLE_USER);
+		return alluser.stream().map(user -> mapper.map(user, GetUserdto.class)).collect(Collectors.toList());
+	}
+
+
+
+	
+	
+	
+	
+	
+	
+	
+
+
 	
 
 }

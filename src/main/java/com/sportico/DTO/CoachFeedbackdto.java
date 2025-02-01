@@ -8,7 +8,7 @@ private Long User_ID;
 
 private Long Coach_ID;
 
-private Long Message;
+private String Message;
 
 private LocalDate Date;
 
@@ -35,13 +35,17 @@ public void setCoach_ID(Long coach_ID) {
 	Coach_ID = coach_ID;
 }
 
-public Long getMessage() {
+
+
+public String getMessage() {
 	return Message;
 }
 
-public void setMessage(Long message) {
+
+public void setMessage(String message) {
 	Message = message;
 }
+
 
 public LocalDate getDate() {
 	return Date;

@@ -1,19 +1,22 @@
 package com.sportico.DTO;
 
-public class CoachingSessiondto {
+import com.sportico.pojos.SessionBatch;
+
+public class CoachingSessiondto extends Basedto{
 	
 	private String Description;
 	
 	private String Venue;
 	
-	private String Duration;	
-	
+	private SessionBatch Session_Branch;
+		
 	private Long SportID;
 	
-	private Long Coach_ID;
+	private Long CoachID;
 
 	public CoachingSessiondto() {
-		
+		super();
+		// TODO Auto-generated constructor stub
 	}
 
 	public String getDescription() {
@@ -32,12 +35,12 @@ public class CoachingSessiondto {
 		Venue = venue;
 	}
 
-	public String getDuration() {
-		return Duration;
+	public SessionBatch getSession_Branch() {
+		return Session_Branch;
 	}
 
-	public void setDuration(String duration) {
-		Duration = duration;
+	public void setSession_Branch(SessionBatch session_Branch) {
+		Session_Branch = session_Branch;
 	}
 
 	public Long getSportID() {
@@ -48,20 +51,22 @@ public class CoachingSessiondto {
 		SportID = sportID;
 	}
 
-	public Long getCoach_ID() {
-		return Coach_ID;
+	public Long getCoachID() {
+		return CoachID;
 	}
 
-	public void setCoach_ID(Long coach_ID) {
-		Coach_ID = coach_ID;
+	public void setCoachID(Long coachID) {
+		CoachID = coachID;
 	}
 
 	@Override
 	public String toString() {
-		return "CoachingSessiondto [Description=" + Description + ", Venue=" + Venue + ", Duration=" + Duration
-				+ ", SportID=" + SportID + ", Coach_ID=" + Coach_ID + "]";
+		return "CoachingSessiondto [Description=" + Description + ", Venue=" + Venue + ", Session_Branch="
+				+ Session_Branch + ", SportID=" + SportID + ", CoachID=" + CoachID + "]";
 	}
-	
+
+
+
 	
 	
 	

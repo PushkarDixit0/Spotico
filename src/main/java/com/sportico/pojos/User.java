@@ -1,3 +1,4 @@
+
 package com.sportico.pojos;
 
 import java.time.LocalDate;
@@ -14,20 +15,24 @@ import jakarta.persistence.Table;
 public class User extends BasicEntity {
 	
 	@Column(name = "fname")
-	private String FName;
+	private String fName;
 	@Column(name = "lname")
-	private String LName;
+	private String lName;
 	@Column(name = "email")
-	private String Email;
+	private String email;
 	@Column(name = "password")
-	private String Password;
+	private String password;
+	
+	@Column(name = "phoneNo")
+	private String phoneNo;
+	
 	@Column(name = "dob")
-	private LocalDate DOB;
+	private LocalDate dob;
+	
 	@Enumerated(EnumType.STRING)
 	@Column(name = "role")
-	private Roles Role;
+	private Roles role;
 
-	
 	
 	
 	
@@ -35,48 +40,149 @@ public class User extends BasicEntity {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public String getFName() {
-		return FName;
-	}
-	public void setFName(String fName) {
-		FName = fName;
-	}
-	public String getLName() {
-		return LName;
-	}
-	public void setLName(String lName) {
-		LName = lName;
-	}
-	public String getEmail() {
-		return Email;
-	}
-	public void setEmail(String email) {
-		Email = email;
-	}
-	public String getPassword() {
-		return Password;
-	}
-	public void setPassword(String password) {
-		Password = password;
-	}
-	public LocalDate getDOB() {
-		return DOB;
-	}
-	public void setDOB(LocalDate dOB) {
-		DOB = dOB;
-	}
-	public Roles getRole() {
-		return Role;
-	}
-	public void setRole(Roles role) {
-		Role = role;
-	}
 	
+	
+
+
+
+
+	public String getfName() {
+		return fName;
+	}
+
+
+
+
+
+
+	public void setfName(String fName) {
+		this.fName = fName;
+	}
+
+
+
+
+
+
+	public String getlName() {
+		return lName;
+	}
+
+
+
+
+
+
+	public void setlName(String lName) {
+		this.lName = lName;
+	}
+
+
+
+
+
+
+	public String getEmail() {
+		return email;
+	}
+
+
+
+
+
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+
+
+
+
+
+	public String getPassword() {
+		return password;
+	}
+
+
+
+
+
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+
+
+
+
+
+	public String getPhoneNo() {
+		return phoneNo;
+	}
+
+
+
+
+
+
+	public void setPhoneNo(String phoneNo) {
+		this.phoneNo = phoneNo;
+	}
+
+
+
+
+
+
+	public LocalDate getDob() {
+		return dob;
+	}
+
+
+
+
+
+
+	public void setDob(LocalDate dob) {
+		this.dob = dob;
+	}
+
+
+
+
+
+
+	public Roles getRole() {
+		return role;
+	}
+
+
+
+
+
+
+	public void setRole(Roles role) {
+		this.role = role;
+	}
+
+
+
+
+
 
 	@Override
 	public String toString() {
-		return "Users [FName=" + FName + ", LName=" + LName + ", Email=" + Email + ", Password=" + Password + ", DOB="
-				+ DOB + ", Role=" + Role + "]";
+		return "User [fName=" + fName + ", lName=" + lName + ", email=" + email + ", password=" + password
+				+ ", phoneNo=" + phoneNo + ", dob=" + dob + ", role=" + role + "]";
 	}
+
+
+
+	
+
+	
+	
 	
 }

@@ -2,99 +2,100 @@ package com.sportico.DTO;
 
 import java.time.LocalDate;
 
-import com.sportico.pojos.Roles;
-
-public class PostUserdto {
+public class PostUserdto extends Basedto{
 
 		
-		private String FName;
+		private String fName;
 		
-		private String LName;
+		private String lName;
 		
-		private String Email;
+		private String email;
 		
-		private String Password;
+		private String password;
+		
+		private String phoneNo;
 				
-		private LocalDate DOB;
+		private LocalDate dob;
 		
-		private Roles Role;
+		
+	
 
-		
+
 		public PostUserdto() {
+			super();
+			// TODO Auto-generated constructor stub
+		}
 		
-		}
-
-
-		public String getFName() {
-			return FName;
-		}
-
-
-		public void setFName(String fName) {
-			FName = fName;
-		}
-
-
-		public String getLName() {
-			return LName;
-		}
-
-
-		public void setLName(String lName) {
-			LName = lName;
-		}
-
-
-		public LocalDate getDOB() {
-			return DOB;
-		}
-
-
-		public void setDOB(LocalDate dOB) {
-			DOB = dOB;
-		}
-
 
 		public String getEmail() {
-			return Email;
+			return email;
 		}
 
 
 		public void setEmail(String email) {
-			Email = email;
+			this.email = email;
+		}
+
+
+		public String getPassword() {
+			return password;
 		}
 
 		
 
-		public String getPassword() {
-			return Password;
+		public String getPhoneNo() {
+			return phoneNo;
+		}
+
+
+		public void setPhoneNo(String phoneNo) {
+			this.phoneNo = phoneNo;
 		}
 
 
 		public void setPassword(String password) {
-			Password = password;
+			this.password = password;
+		}
+
+		public LocalDate getDob() {
+			return dob;
+		}
+
+		public void setDob(LocalDate dob) {
+			this.dob = dob;
+		}
+		public String getFName() {
+			return fName;
 		}
 
 
-		public Roles getRole() {
-			return Role;
+		public void setFName(String fName) {
+			this.fName = fName;
+		}
+
+		public String getLName() {
+			return lName;
 		}
 
 
-		public void setRole(Roles role) {
-			Role = role;
+		public void setLName(String lName) {
+			this.lName = lName;
 		}
+
 
 
 		@Override
 		public String toString() {
-			return "PostUserdto [FName=" + FName + ", LName=" + LName + ", Email=" + Email + ", Password=" + Password
-					+ ", DOB=" + DOB + ", Role=" + Role + "]";
+			return "PostUserdto [fName=" + fName + ", lName=" + lName + ", email=" + email + ", password=" + password
+					+ ", phoneNo=" + phoneNo + ", dob=" + dob + "]";
 		}
 
-
-	
 		
 	
+
+
+		
+		
+		
 		
 }
