@@ -1,4 +1,4 @@
-package com.spotico.Controllel;
+package com.spotico.Controllers;
 
 
 
@@ -13,22 +13,17 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.spotico.DTO.APIResponse;
 import com.spotico.Service.UsersService;
-import com.spotico.pojos.Users;
-
-
-
+import com.spotico.pojos.User;
 
 
 @RestController
 @RequestMapping("/user")
-public class UsersControllel {
+public class UsersController {
 
 	@Autowired
 	public UsersService usersService;
-
 	
-	
-	public UsersControllel() {
+	public UsersController() {
 		System.out.println("UsersService Running");
 	}
 	
@@ -39,7 +34,7 @@ public class UsersControllel {
 	}
 	
 	@PostMapping("/saveUser")
-	public ResponseEntity<APIResponse> postMethodName(@RequestBody Users entity) {
+	public ResponseEntity<APIResponse> postMethodName(@RequestBody User entity) {
 		if(entity!=null) {
 		return  ResponseEntity.status(HttpStatus.ACCEPTED).body(new APIResponse(usersService.saveuser(entity)));
 	}

@@ -11,7 +11,7 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "users")
 
-public class Users extends BasicEntity {
+public class User extends BasicEntity {
 	
 	@Column(name = "fname")
 	private String FName;
@@ -28,7 +28,7 @@ public class Users extends BasicEntity {
 	private Roles Role;
 
 	
-	public Users() {
+	public User() {
 	
 	}
 	public String getFName() {

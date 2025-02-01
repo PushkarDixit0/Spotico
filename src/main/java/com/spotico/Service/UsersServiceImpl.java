@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.spotico.DAO.UsersDao;
-import com.spotico.pojos.Users;
+import com.spotico.pojos.User;
 
 import jakarta.transaction.Transactional;
 
@@ -19,14 +19,14 @@ public class UsersServiceImpl implements UsersService {
 	
 	
 	@Override
-	public List<Users> getallUSers() {
-		List<Users> alluser=userDao.findAll();
+	public List<User> getallUSers() {
+		List<User> alluser=userDao.findAll();
 		return alluser;
 	}
 
 
 	@Override
-	public String saveuser(Users entity) {
+	public String saveuser(User entity) {
 		userDao.save(entity);
 		return "Successfully save";
 	}

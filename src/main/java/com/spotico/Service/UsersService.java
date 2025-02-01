@@ -2,12 +2,12 @@ package com.spotico.Service;
 
 import java.util.List;
 
-import com.spotico.pojos.Users;
+import com.spotico.pojos.User;
 
 public interface UsersService {
 
-	List<Users> getallUSers();
+	List<User> getallUSers();
 
-	String saveuser(Users entity);
+	String saveuser(User entity);
 
 }
