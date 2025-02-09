@@ -2,7 +2,9 @@ package com.sportico.Service;
 
 import java.util.List;
 
+import com.sportico.DTO.EnrolledUsersDTO;
 import com.sportico.DTO.TournamentDTO;
+import com.sportico.DTO.TournamentEnrollmentDTO;
 
 public interface TournamentService{
 
@@ -15,5 +17,7 @@ public interface TournamentService{
 	TournamentDTO updateTournament(Long id, TournamentDTO t);
 
 	TournamentDTO getTournamentById(Long id);
+
+	List<EnrolledUsersDTO> getEnrolledUsersByTournament(Long tournamentId);
 
 }

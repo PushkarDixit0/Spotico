@@ -103,21 +103,21 @@ public class UsersServiceImpl implements UsersService {
 
 	@Override
 	public String Updateuser(Long userid, PostUserdto entity) {
-		if (entity != null) {
+	    if (entity != null) {
+	        User user = userDao.findById(userid).orElseThrow(() -> new RuntimeException("User not found"));
 
-			User user = userDao.findById(userid).orElseThrow();
-
-			User u = mapper.map(entity, User.class);
-			user.setDob(u.getDob());
-			user.setFname(u.getFname());
-			user.setLname(u.getLname());
-
-			userDao.save(user);
-			return "Successfully Updated";
-		} else {
-			return null;
-		}
+	        if (entity.getFname() != null) user.setFname(entity.getFname());
+	        if (entity.getLname() != null) user.setLname(entity.getLname());
+	        if (entity.getEmail() != null) user.setEmail(entity.getEmail());
+	        if (entity.getMobNo() != null) user.setMobNo(entity.getMobNo());
+	        
+	        userDao.save(user);
+	        return "Successfully Updated";
+	    } else {
+	        return "Invalid request";
+	    }
 	}
+
 
 	@Override
 	public String UpdateuserEmail(Long userid, String email) {

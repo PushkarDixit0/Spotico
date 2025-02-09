@@ -11,9 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.GrantedAuthoritiesContainer;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,20 +22,19 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.sportico.security.JwtUtils;
-
-import jakarta.validation.Valid;
-
-import com.sportico.DTO.SigninResponse;
-import com.sportico.DAO.UsersDao;
 import com.sportico.DTO.APIResponse;
 import com.sportico.DTO.LoginResponseDTO;
 import com.sportico.DTO.LoginUserDTO;
 import com.sportico.DTO.PostUserdto;
+import com.sportico.DTO.SigninResponse;
 //import com.sportico.Service.CaptchaService;
 import com.sportico.Service.UsersService;
+import com.sportico.security.JwtUtils;
 
+import jakarta.validation.Valid;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 
 @RestController
@@ -61,6 +58,11 @@ public class UsersController {
 		System.out.println("UsersService Running");
 	}
 	
+	@GetMapping("/debug")
+	public ResponseEntity<?> debugUser() {
+	    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	    return ResponseEntity.ok(auth);
+	}
 	
 	@GetMapping("/allusers")
 	public ResponseEntity<?> getMethodGetAll() {
@@ -74,42 +76,52 @@ public class UsersController {
 
 	@PostMapping("/adduser")
 	public ResponseEntity<?> postMethodInsertUSER(@RequestBody @Valid PostUserdto entity) {
-		LoginResponseDTO response = usersService.saveUser(entity);
-		return  ResponseEntity.status(HttpStatus.CREATED).body(response);
+	    LoginResponseDTO userDetails = usersService.saveUser(entity);
+
+	    List<GrantedAuthority> authorities = Collections.singletonList(
+	            new SimpleGrantedAuthority("ROLE_" + userDetails.getRole())
+	    );
+
+	    // Generate JWT Token
+	    String jwtToken = jwtUtils.generateJwtToken(
+	            new UsernamePasswordAuthenticationToken(userDetails.getEmail(), null, authorities)
+	    );
+
+	    // Prepare response
+	    SigninResponse signinResponse = new SigninResponse(jwtToken, "User registered successfully!", userDetails);
+	    
+	    return ResponseEntity.status(HttpStatus.CREATED).body(signinResponse);
 	}
+
 	
 	@PostMapping("/login")
 	public ResponseEntity<?> authenticateUser(@RequestBody @Valid LoginUserDTO request) {
 	    System.out.println("In sign-in: " + request);
 
 	    try {
-	        // Call Service to Validate User
 	        LoginResponseDTO userDetails = usersService.loginUser(request);
 
-	        // Set Role (Ensure it's prefixed with "ROLE_")
 	        List<GrantedAuthority> authorities = Collections.singletonList(
-	                new SimpleGrantedAuthority("ROLE_" + userDetails.getRole()) // Adjust according to your Role class structure
-	            );
-	        // Generate JWT Token
-	        String jwtToken = jwtUtils.generateJwtToken(
-	            new UsernamePasswordAuthenticationToken(userDetails.getEmail(), null, authorities)
+	                new SimpleGrantedAuthority("ROLE_" + userDetails.getRole())
 	        );
 
-	        // Prepare Response (User Details + Token)
-	        SigninResponse response = new SigninResponse(jwtToken, "Successful Auth!!!!", userDetails);
+	        // Generate JWT Token
+	        String jwtToken = jwtUtils.generateJwtToken(
+	                new UsernamePasswordAuthenticationToken(userDetails.getEmail(), null, authorities)
+	        );
 
-	        return ResponseEntity.status(HttpStatus.OK).body(response);
+	        // Prepare response
+	        SigninResponse signinResponse = new SigninResponse(jwtToken, "Successful Auth!!!!", userDetails);
+
+	        return ResponseEntity.status(HttpStatus.OK).body(signinResponse);
 	    
 	    } catch (RuntimeException e) {
-	        // Handle User Not Found / Invalid Credentials
 	        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
 	                .body(Map.of("error", "Invalid credentials!"));
 	    }
 	}
 
-	
 
-	
 	
 //	 @PostMapping("/login")
 //	    public ResponseEntity<?> login(@RequestBody LoginUserDTO loginRequestDTO) {

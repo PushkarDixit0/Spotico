@@ -13,13 +13,14 @@ public class Usersdto {
 		
 		private String email;
 		
+		private String mobNo;
+		
 		private String password;
 		
 		private Date dob;
 		
 		private Roles role;
 
-		
 		public Usersdto() {
 		
 		}
@@ -52,6 +53,13 @@ public class Usersdto {
 			this.email = email;
 		}
 
+		public String getMobNo() {
+			return mobNo;
+		}
+
+		public void setMobNo(String mobNo) {
+			this.mobNo = mobNo;
+		}
 
 		public String getPassword() {
 			return password;

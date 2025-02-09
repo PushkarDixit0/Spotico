@@ -12,16 +12,14 @@ public class PostUserdto extends Basedto{
 		
 		private String password;
 		
-		private String phoneNo;
+		private String mobNo;
 				
 		private LocalDate dob;
-		
-		
+
 
 		public PostUserdto() {
 			super();
 		}
-
 
 
 		public String getFname() {
@@ -72,14 +70,15 @@ public class PostUserdto extends Basedto{
 
 
 
-		public String getPhoneNo() {
-			return phoneNo;
+
+		public String getMobNo() {
+			return mobNo;
 		}
 
 
 
-		public void setPhoneNo(String phoneNo) {
-			this.phoneNo = phoneNo;
+		public void setMobNo(String mobNo) {
+			this.mobNo = mobNo;
 		}
 
 
@@ -99,11 +98,8 @@ public class PostUserdto extends Basedto{
 		@Override
 		public String toString() {
 			return "PostUserdto [fname=" + fname + ", lname=" + lname + ", email=" + email + ", password=" + password
-					+ ", phoneNo=" + phoneNo + ", dob=" + dob + "]";
+					+ ", mobNo=" + mobNo + ", dob=" + dob + "]";
 		}
-		
 
-	
-		
 		
 }

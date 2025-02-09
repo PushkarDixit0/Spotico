@@ -19,6 +19,8 @@ public class User extends BasicEntity {
 	private String lname;
 	@Column(name = "email")
 	private String email;
+	@Column(name = "mobNo")
+	private String mobNo;
 	@Column(name = "password")
 	private String password;
 	@Column(name = "dob")
@@ -84,6 +86,14 @@ public class User extends BasicEntity {
 
 
 
+	public String getMobNo() {
+		return mobNo;
+	}
+
+
+	public void setMobNo(String mobNo) {
+		this.mobNo = mobNo;
+	}
 
 
 	public Roles getRole() {

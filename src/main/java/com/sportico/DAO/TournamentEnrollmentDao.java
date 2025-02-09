@@ -9,4 +9,6 @@ import com.sportico.pojos.TournamentEnrollment;
 public interface TournamentEnrollmentDao extends JpaRepository<TournamentEnrollment, Long> {
     boolean existsByUserIdAndTournamentId(Long userId, Long tournamentId);
     List<TournamentEnrollment> findByUserId(Long userId);
+    
+    List<TournamentEnrollment> findByTournamentId(Long tournamentId);
 }

@@ -1,5 +1,7 @@
 package com.sportico.Controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -12,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.sportico.DTO.EnrolledUsersDTO;
 import com.sportico.DTO.TournamentDTO;
+import com.sportico.DTO.TournamentEnrollmentDTO;
 import com.sportico.Service.TournamentService;
 
 import org.springframework.web.bind.annotation.RequestParam;
@@ -50,7 +54,12 @@ public class TournamentController {
 	public ResponseEntity<?> getSingleTournament(@PathVariable Long id) {
 		return  ResponseEntity.ok(tournamentService.getTournamentById(id));
 	}
-	
+
+	@GetMapping("/{tournamentId}/enrolled-users")
+    public ResponseEntity<List<EnrolledUsersDTO>> getEnrolledUsers(@PathVariable Long tournamentId) {
+        List<EnrolledUsersDTO> enrolledUsers = tournamentService.getEnrolledUsersByTournament(tournamentId);
+        return ResponseEntity.ok(enrolledUsers);
+    }
 	
 }
 

@@ -54,7 +54,8 @@ public class SecurityConfig {
         http.csrf(csrf -> csrf.disable())  // Disable CSRF for stateless authentication
             .authorizeRequests(authorizeRequests -> authorizeRequests
             		.requestMatchers("/user/login", "/user/adduser", "/v*/api-doc*/**", "/swagger-ui/**").permitAll() // Allow login
-            		.requestMatchers("/tournament/**", "/coaching-sessions/**").permitAll()            		
+            		.requestMatchers("/user/**").permitAll()
+            		 .requestMatchers("/tournament/**", "/coaching-sessions/**").permitAll()            		
             		.requestMatchers("/admin/**").hasRole("ADMIN")  // Admin only access
                 .requestMatchers("/coach/**").hasRole("COACH")  // Coach only access
                 .anyRequest().authenticated()  // All other requests need authentication

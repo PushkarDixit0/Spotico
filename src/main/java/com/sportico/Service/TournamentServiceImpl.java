@@ -1,17 +1,25 @@
 package com.sportico.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.sportico.DAO.SportsDao;
 import com.sportico.DAO.TournamentDao;
+import com.sportico.DAO.TournamentEnrollmentDao;
+import com.sportico.DTO.EnrolledUsersDTO;
+import com.sportico.DTO.PostUserdto;
 import com.sportico.DTO.TournamentDTO;
+import com.sportico.DTO.TournamentEnrollmentDTO;
 import com.sportico.pojos.Sport;
 import com.sportico.pojos.Tournament;
+import com.sportico.pojos.TournamentEnrollment;
+import com.sportico.pojos.User;
 
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
@@ -27,6 +35,9 @@ public class TournamentServiceImpl implements TournamentService{
 	
 	@Autowired
 	public ModelMapper modelMapper;
+	
+	@Autowired
+	public TournamentEnrollmentDao tournamentEnrollmentDao;
 	
 	@Override
 	public List<TournamentDTO> getAllTournaments() {
@@ -94,5 +105,34 @@ public class TournamentServiceImpl implements TournamentService{
 	    responseDTO.setSportName(tournament.getSport().getName()); 
 	    return responseDTO;
 	}
+	
+
+    @Scheduled( cron = "0 0 0 * * ?")  // Runs at midnight every day
+    public void deleteExpiredTournaments() {
+        LocalDate today = LocalDate.now();
+        List<Tournament> expiredTournaments = tournamentDao.findByTournamentDateBefore(today);
+
+        if (!expiredTournaments.isEmpty()) {
+            tournamentDao.deleteAll(expiredTournaments);
+            System.out.println("Deleted " + expiredTournaments.size() + " expired tournaments.");
+        }
+    }
+    
+    @Override
+    public List<EnrolledUsersDTO> getEnrolledUsersByTournament(Long tournamentId) {
+        List<TournamentEnrollment> enrollments = tournamentEnrollmentDao.findByTournamentId(tournamentId);
+        
+        return enrollments.stream().map(enrollment -> {
+            EnrolledUsersDTO dto = new EnrolledUsersDTO();
+            User user = enrollment.getUser();
+            
+            dto.setName(user.getFname()+" "+user.getLname());
+            dto.setEmail(user.getEmail());
+            dto.setMobNo(user.getMobNo());
+          
+            
+            return dto;
+        }).collect(Collectors.toList());
+    }
 
 }
