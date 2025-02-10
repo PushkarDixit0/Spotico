@@ -1,0 +1,133 @@
+
+/* Main Container */
+.container {
+    margin: 20px auto;
+    max-width: 600px;
+    border: 2px solid #7b006d;  /* Purple Border */
+    border-radius: 12px;
+    padding: 20px 35px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease-in-out;
+    background-color: #fff;
+}
+
+.container:hover {
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+    transform: scale(1.02);
+}
+
+/* Page Title */
+.title {
+    font-size: 28px;
+    color: #980780;
+    font-weight: 600;
+    text-align: center;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 10px;
+}
+
+/* Animated Title Dots */
+.title::before, 
+.title::after {
+    content: "";
+    height: 16px;
+    width: 16px;
+    border-radius: 50%;
+    background-color: #980780;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+/* Left Dot */
+.title::before {
+    left: -25px;
+    width: 20px;
+    height: 20px;
+}
+
+/* Pulsating Right Dot */
+.title::after {
+    right: -25px;
+    width: 20px;
+    height: 20px;
+    animation: pulse 1s linear infinite;
+}
+
+/* Input Fields */
+.formGroup {
+    margin-bottom: 15px;
+}
+
+label {
+    font-weight: bold;
+    color: #444;
+}
+
+.formControl {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+}
+
+.formControl:focus {
+    border-color: #7b006d;
+    outline: none;
+    box-shadow: 0 0 5px rgba(123, 0, 109, 0.3);
+}
+
+select.formControl {
+    cursor: pointer;
+}
+
+/* Validation Error Message */
+.invalidFeedback {
+    color: red;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+/* Submit Button */
+.btnPrimary {
+    background-color: #7b006d;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    padding: 10px;
+    font-size: 18px;
+    width: 100%;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.btnPrimary:hover {
+    background-color: #980780;
+    transform: scale(1.04);
+}
+
+.btnPrimary:active {
+    transform: scale(1);
+}
+
+/* Hover effect for dropdowns */
+.formControl:hover {
+    border-color: #7b006d;
+}
+
+/* Pulse Animation */
+@keyframes pulse {
+    from {
+        transform: translateY(-50%) scale(0.9);
+        opacity: 1;
+    }
+    to {
+        transform: translateY(-50%) scale(1.6);
+        opacity: 0;
+    }
+}
