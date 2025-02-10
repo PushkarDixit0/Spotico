@@ -26,13 +26,19 @@ class UserService {
     }
 
     updateUser(user) {
-        return axios.put(`${BASE_URL}user/updateuser/${user.id}`, user, this.getHeaders());
+        return axios.put(`${BASE_URL}user/update/${user.id}`, user, this.getHeaders());
+    }
+
+    getSingleUser(id){
+        return axios.get(BASE_URL + `user/${id}`, this.getHeaders());
     }
 
     getHeaders() {
         const token = JSON.parse(localStorage.getItem("jwtToken")); 
         return token ? { headers: { Authorization: `Bearer ${token}` } } : {};
     }
+
+    
 }
 
 export default new UserService();

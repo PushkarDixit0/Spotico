@@ -32,49 +32,50 @@ function Login() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
-        // if (!captchaValue) {
-        //     alert("Please complete the CAPTCHA");
-        //     return;
-        // }
-        
+    
         const newErrors = {};
-
+    
         if (!loginData.email.trim()) {
             newErrors.email = "*Required field";
         } else if (!/^\S+@\S+\.\S+$/.test(loginData.email)) {
             newErrors.email = "Invalid email format";
         }
-
+    
         if (!loginData.password.trim()) {
             newErrors.password = "*Required field";
         }
-
+    
         setErrors(newErrors);
-
+    
         if (Object.keys(newErrors).length === 0) {
-            const response = await UserService.loginUser(loginData);
-
-            if (response) {
-                toast.success("Login successful!");
-                console.log(response);
-                localStorage.setItem("jwtToken", JSON.stringify(response.data.jwt));
-                localStorage.setItem("id", JSON.stringify(response.data.user.id));
-                localStorage.setItem("email", JSON.stringify(response.data.user.email));
-                localStorage.setItem("role", JSON.stringify(response.data.user.role));
-                localStorage.setItem("name", JSON.stringify(response.data.user.name));
-                navigate('/', {
-                    state: {
-                        id: response.data.user.id,
-                        role: response.data.user.role,
-                        name: response.data.user.name
-                    }
-                });
-            } else {
+            try {
+                const response = await UserService.loginUser(loginData);
+    
+                if (response && response.data.jwt) {
+                    toast.success("Login successful!");
+                    localStorage.setItem("jwtToken", JSON.stringify(response.data.jwt));
+                    localStorage.setItem("id", JSON.stringify(response.data.user.id));
+                    localStorage.setItem("email", JSON.stringify(response.data.user.email));
+                    localStorage.setItem("role", JSON.stringify(response.data.user.role));
+                    localStorage.setItem("name", JSON.stringify(response.data.user.name));
+                    
+                    navigate('/', {
+                        state: {
+                            id: response.data.user.id,
+                            role: response.data.user.role,
+                            name: response.data.user.name
+                        }
+                    });
+                } else {
+                    throw new Error("Invalid response data");
+                }
+            } catch (error) {
+                console.error("Login error:", error);
                 toast.error("Invalid credentials. Please try again.");
             }
         }
     };
+    
 
     return (
         <div className={`${styles.container} container`}>

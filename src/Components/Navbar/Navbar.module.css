@@ -79,4 +79,41 @@
   .menuDropdown li:hover {
     background: rgba(147, 0, 119, 0.1);
   }
+
+  .searchContainer {
+    margin-left: 44rem;
+  }
+  
+  .searchInput {
+    padding: 6px 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+    width: 180px;
+  }
+  
+  .searchInput:focus {
+    border-color: #980780;
+  }
+  .authLinks {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .authLinks button {
+    background-color: white;
+    color: #980780;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+  }
+  
+  .authLinks button:hover {
+    background-color: #f0f0f0;
+  }
+  
   

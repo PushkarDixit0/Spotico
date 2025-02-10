@@ -1,49 +1,78 @@
-import React, { useEffect, useState } from 'react'
-import styles from './ShowTournaments.module.css'
+import React, { useEffect, useState } from 'react';
+import styles from './ShowTournaments.module.css';
 import TournamentService from '../../Service/TournamentService';
 import TournamentCard from './TournamentCard/TournamentCard';
 import TournamentFormModal from '../Modals/TournamentFormModal';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import TournamentEnrollmentService from '../../Service/TournamentEnrollmentService';
 
-function ShowTournaments() {
+function ShowTournaments({ searchSport }) {
     const [tournaments, setTournaments] = useState([]);
-
     const [isAdmin, setIsAdmin] = useState(false);
-
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     const location = useLocation();
+    const navigate = useNavigate();
+    
     const userRole = location.state?.role || JSON.parse(localStorage.getItem("role"));
+    const userId = JSON.parse(localStorage.getItem('id'));
 
     useEffect(() => {
-        if (userRole == "ROLE_ADMIN")
-            setIsAdmin(true);
+        if (userRole === "ROLE_ADMIN") setIsAdmin(true);
+        if (userId) setIsLoggedIn(true);
         fetchData();
-    }, [])
+    }, []);
 
     const fetchData = async () => {
-        const response = await TournamentService.getAllTournaments()
         try {
-            if (response) {
-                console.log(response.data);
-                setTournaments(response.data);
+            const allTournamentsResponse = await TournamentService.getAllTournaments();
+
+            let enrolledTournamentIds = new Set();
+            if (userId) {
+                const enrolledTournamentsResponse = await TournamentEnrollmentService.getEnrolledTournaments(userId);
+                if (enrolledTournamentsResponse?.data) {
+                    enrolledTournamentIds = new Set(enrolledTournamentsResponse.data.map(t => t.tournamentId));
+                }
             }
+
+            const filteredTournaments = allTournamentsResponse?.data?.filter(
+                t => !enrolledTournamentIds.has(t.tournamentId) && t.slots > 0
+            ) || [];
+
+            setTournaments(filteredTournaments);
         } catch (err) {
-            console.log("error fetching data " + err);
+            console.error("Error fetching data:", err);
         }
-    }
+    };
+
+    const handleEnrollClick = () => {
+        if (!isLoggedIn) {
+            navigate("/login");
+        }
+    };
+
+    const filteredTournaments = tournaments.filter(tournament =>
+        tournament.sportName.toLowerCase().includes(searchSport.toLowerCase())
+    );
 
     return (
         <div>
             <div className={styles.tournamentList}>
-                {tournaments.map((tournament) => (
-                    <TournamentCard key={tournament.tournamentId} tournament={tournament} isAdmin={isAdmin} fetchData={fetchData} />
+                {filteredTournaments.map((tournament) => (
+                    <TournamentCard 
+                        key={tournament.tournamentId} 
+                        tournament={tournament} 
+                        isAdmin={isAdmin} 
+                        isLoggedIn={isLoggedIn}
+                        fetchData={fetchData} 
+                        handleEnrollClick={handleEnrollClick} 
+                    />
                 ))}
 
                 {isAdmin && (
                     <div className={styles.add}>
                         <div className={styles.cardContent}>
-                            {/* <h3 className={styles.cardTitle}>Add Tournament</h3> */}
                             <button className={styles.addButton} onClick={() => setIsModalOpen(true)} title="Add New">
                                 <svg xmlns="http://www.w3.org/2000/svg"
                                     viewBox="0 0 24 24"
@@ -60,10 +89,8 @@ function ShowTournaments() {
                     </div>
                 )}
             </div>
-
-
         </div>
-    )
+    );
 }
 
-export default ShowTournaments
+export default ShowTournaments;

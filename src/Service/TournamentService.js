@@ -1,17 +1,11 @@
 import axios from 'axios';
 
 const BASE_URL = "http://localhost:8080/";
-const token = JSON.parse(localStorage.getItem("jwtToken"));
 
 class TournamentService {
     
     getAllTournaments() {
-        console.log(token)
-        if (!token) {
-            console.error("No token found");
-            return Promise.reject("No token found"); 
-        }
-        return axios.get(BASE_URL + "tournament", this.getHeaders());
+        return axios.get(BASE_URL + "tournament");
     }
 
     addTournament(tournament) {
